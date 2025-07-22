@@ -2,7 +2,7 @@
 /corruption_test/smashbox*.conf
 /etc/smashbox*.conf
 /src/
-
+/smashdir_host/
 # C extensions
 *.so
 
