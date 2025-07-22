@@ -227,3 +227,17 @@ Otherwsie the test account on the server will be everytime the same (and will be
 The account_cleanup_procedure defines how the account is cleaned-up before running the test. These procedures are defined in smashbox/python/smashbox.
 
 
+Run in container
+----------------
+
+- etc/smashbox.conf is complete
+- docker or podman are installed
+- run::
+
+```bash
+bash start lib/test_basicSync.py
+```
+
+```bash
+CONTAINER_ENGINE=docker bash start lib/test_basicSync.py
+```

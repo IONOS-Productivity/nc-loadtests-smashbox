@@ -1,12 +1,16 @@
 #!/bin/bash
 
+# Select container engine: podman (default) or docker if CONTAINER_ENGINE=docker
+ENGINE="${CONTAINER_ENGINE:-podman}"
+
 # Build the container image
-podman build -t temp-smashbox-img -f dockerfile .
+$ENGINE build -t temp-smashbox-img -f dockerfile .
 
 # Ensure host smashdir exists and mount it into the container for persistence
 HOST_SMASHDIR="$PWD/smashdir_host"
 mkdir -p "$HOST_SMASHDIR"
-podman run --rm -it \
+
+$ENGINE run --rm -it \
     --dns=8.8.8.8 \
     -v "$PWD":/app \
     -v "$HOST_SMASHDIR":/root/smashdir \
@@ -15,4 +19,4 @@ podman run --rm -it \
     bash -c "bin/smash $@"
 
 # Remove the temporary image after use
-podman rmi temp-smashbox-img > /dev/null 2>&1
+$ENGINE rmi temp-smashbox-img > /dev/null 2>&1
