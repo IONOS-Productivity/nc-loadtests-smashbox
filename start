@@ -1,0 +1,18 @@
+#!/bin/bash
+
+# Build the container image
+podman build -t temp-smashbox-img -f dockerfile .
+
+# Ensure host smashdir exists and mount it into the container for persistence
+HOST_SMASHDIR="$PWD/smashdir_host"
+mkdir -p "$HOST_SMASHDIR"
+podman run --rm -it \
+    --dns=8.8.8.8 \
+    -v "$PWD":/app \
+    -v "$HOST_SMASHDIR":/root/smashdir \
+    -w /app \
+    temp-smashbox-img \
+    bash -c "bin/smash $@"
+
+# Remove the temporary image after use
+podman rmi temp-smashbox-img > /dev/null 2>&1
